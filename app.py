@@ -25,8 +25,8 @@ STATIC_FOLDER = 'static'
 from tensorflow.keras.models import load_model
 import keras
 
-global graph
-graph = tf.get_default_graph()
+#global graph
+#graph = tf.get_default_graph()
 model = load_model('model111.h5')
 model1=load_model("pneumonia.h5")
 model2 = tf.keras.models.load_model("Covid_model.h5")
@@ -155,13 +155,13 @@ def index2():
 def about():
     return render_template("about.html")
 
-@app.route("/login")
-def login():
-    return render_template("login.html")
+# @app.route("/login")
+# def login():
+#     return render_template("login.html")
 
-@app.route("/register")
-def login1():
-    return render_template("signup.html")
+# @app.route("/register")
+# def login1():
+#     return render_template("signup.html")
 
 @app.route("/covid_19")
 def covid_19():
