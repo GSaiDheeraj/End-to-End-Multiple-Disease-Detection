@@ -32,6 +32,8 @@ STATIC_FOLDER = 'static'
 model = tensorflow.keras.models.load_model('model111.h5')
 model1 = tensorflow.keras.models.load_model("pneumonia.h5")
 model2 = tensorflow.keras.models.load_model("Covid_model.h5")
+model3 = tf.keras.models.load_model("CovidCT_model.h5")
+
 
 # Malaria
 def api(full_path):
@@ -58,6 +60,13 @@ def api111(full_path):
     data = np.expand_dims(data, axis=0)
     data = data * 1.0/ 255
     predicted = model2.predict(data)
+    return predicted
+def api1111(full_path):
+    #with graph.as_default():
+    data = keras.preprocessing.image.load_img(full_path, target_size=(224, 224, 3))
+    data = np.expand_dims(data, axis=0)
+    data = data / 255
+    predicted = model3.predict(data)
     return predicted
 
 # Malaria
@@ -142,7 +151,31 @@ def upload111_file():
             flash("Please select the X-ray image first !!", "danger")
             return redirect(url_for("covid_19"))
 
+@app.route('/upload1111', methods=['POST', 'GET'])
+def upload1111_file():
+    #with graph.as_default():
+    if request.method == 'GET':
+        return render_template('corona1.html')
+    else:
+        try:
+            file = request.files['image']
+            full_name = os.path.join(UPLOAD_FOLDER, file.filename)
+            file.save(full_name)
+            indices = {1: 'Healthy', 0: 'Corona-Infected'}
+            result = api1111(full_name)
+            predicted_class = np.asscalar(np.argmax(result, axis=1))
+            accuracy = round(result[0][predicted_class] * 100, 2)
+            label = indices[predicted_class]
+            if accuracy<85:
+                prediction = "Please, Check with the Doctor."
+            else:
+                prediction = "Result is accurate"
 
+            return render_template('coronapredict1.html', image_file_name = file.filename, label = label, accuracy = accuracy, prediction=prediction)
+        except:
+            flash("Please select the CT-Scan image first !!", "danger")
+            return redirect(url_for("covidct_19"))
+	
 @app.route('/uploads/<filename>')
 def send_file(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)
@@ -169,6 +202,10 @@ def about():
 def covid_19():
     # if form.validate_on_submit():
     return render_template("corona.html")
+
+@app.route("/covidct_19")
+def covidct_19():
+    return render_template("corona1.html")
 
 @app.route("/Malaria")
 def Malaria():
