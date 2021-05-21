@@ -25,8 +25,8 @@ STATIC_FOLDER = 'static'
 from tensorflow.keras.models import load_model
 import keras
 
-global graph
-graph = tf.get_default_graph()
+#global graph
+#graph = tf.get_default_graph()
 model = load_model('model111.h5')
 model1=load_model("pneumonia.h5")
 model2 = tf.keras.models.load_model("Covid_model.h5")
@@ -34,117 +34,120 @@ model2 = tf.keras.models.load_model("Covid_model.h5")
 # Malaria
 def api(full_path):
     with graph.as_default():
-        data = keras.preprocessing.image.load_img(full_path, target_size=(50, 50, 3))
-        data = np.expand_dims(data, axis=0)
-        data = data * 1.0 / 255
+    data = keras.preprocessing.image.load_img(full_path, target_size=(50, 50, 3))
+    data = np.expand_dims(data, axis=0)
+    data = data * 1.0 / 255
         #with graph.as_default():
-        predicted = model.predict(data)
-        return predicted
+    predicted = model.predict(data)
+    return predicted
 #pneumonia
 def api1(full_path):
     with graph.as_default():
-        data = keras.preprocessing.image.load_img(full_path, target_size=(224, 224, 3))
-        data = np.expand_dims(data, axis=0)
-        data = data / 255
-        predicted = model2.predict(data)
-        return predicted
+    data = keras.preprocessing.image.load_img(full_path, target_size=(224, 224, 3))
+    data = np.expand_dims(data, axis=0)
+    data = data / 255
+    predicted = model2.predict(data)
+    return predicted
 
 #Covid-19
 def api111(full_path):
     with graph.as_default():
-        data = keras.preprocessing.image.load_img(full_path, target_size=(224, 224, 3))
-        data = np.expand_dims(data, axis=0)
-        data = data / 255
-        predicted = model2.predict(data)
-        return predicted
+    data = keras.preprocessing.image.load_img(full_path, target_size=(224, 224, 3))
+    data = np.expand_dims(data, axis=0)
+    data = data / 255
+    predicted = model2.predict(data)
+    return predicted
 
 # Malaria
 @app.route('/upload', methods=['POST', 'GET'])
 def upload_file():
-    with graph.as_default():
-        if request.method == 'GET':
-            return render_template('malaria.html')
-        else:
-            try:
-                file = request.files['image']
-                full_name = os.path.join(UPLOAD_FOLDER, file.filename)
-                file.save(full_name)
+    #with graph.as_default():
 
-                indices = {0: 'PARASITIC', 1: 'Uninfected'}
-                result = api(full_name)
-                print(result)
+    if request.method == 'GET':
+        return render_template('malaria.html')
+    else:
+        try:
+            file = request.files['image']
+            full_name = os.path.join(UPLOAD_FOLDER, file.filename)
+            file.save(full_name)
 
-                predicted_class = np.asscalar(np.argmax(result, axis=1))
-                accuracy = round(result[0][predicted_class] * 100, 2)
-                label = indices[predicted_class]
+            indices = {0: 'PARASITIC', 1: 'Uninfected'}
+            result = api(full_name)
+            print(result)
 
-                if accuracy<85:
-                    prediction = "Please, Check with the Doctor."
-                else:
-                    prediction = "Result is accurate"
+            predicted_class = np.asscalar(np.argmax(result, axis=1))
+            accuracy = round(result[0][predicted_class] * 100, 2)
+            label = indices[predicted_class]
 
-                return render_template('malariapredict.html', image_file_name=file.filename, label=label, accuracy=accuracy, prediction=prediction)
-            except:
-                flash("Please select the image first !!", "danger")
-                return redirect(url_for("Malaria"))
+            if accuracy<85:
+                prediction = "Please, Check with the Doctor."
+            else:
+                prediction = "Result is accurate"
+
+            return render_template('malariapredict.html', image_file_name=file.filename, label=label, accuracy=accuracy, prediction=prediction)
+        except:
+            flash("Please select the image first !!", "danger")
+            return redirect(url_for("Malaria"))
 
 #Pneumonia
 @app.route('/upload11', methods=['POST', 'GET'])
 def upload11_file():
-    with graph.as_default():
-        if request.method == 'GET':
-            return render_template('pneumonia.html')
-        else:
-            try:
-                file = request.files['image']
-                full_name = os.path.join(UPLOAD_FOLDER, file.filename)
-                file.save(full_name)
+    #with graph.as_default():
 
-                indices = {1: 'Healthy', 0: 'Pneumonia-Infected'}
-                result = api1(full_name)
+    if request.method == 'GET':
+        return render_template('pneumonia.html')
+    else:
+        try:
+            file = request.files['image']
+            full_name = os.path.join(UPLOAD_FOLDER, file.filename)
+            file.save(full_name)
 
-                predicted_class = np.asscalar(np.argmax(result, axis=1))
-                accuracy = round(result[0][predicted_class] * 100, 2)
-                label = indices[predicted_class]
-                if accuracy < 85:
-                    prediction = "Please, Check with the Doctor."
-                else:
-                    prediction = "Result is accurate"
+            indices = {1: 'Healthy', 0: 'Pneumonia-Infected'}
+            result = api111(full_name)
 
-                return render_template('pneumoniapredict.html', image_file_name=file.filename, label=label, accuracy=accuracy,
+            predicted_class = np.asscalar(np.argmax(result, axis=1))
+            accuracy = round(result[0][predicted_class] * 100, 2)
+            label = indices[predicted_class]
+            if accuracy < 85:
+                prediction = "Please, Check with the Doctor."
+            else:
+                prediction = "Result is accurate"
+
+            return render_template('pneumoniapredict.html', image_file_name=file.filename, label=label, accuracy=accuracy,
                                    prediction=prediction)
-            except:
-                flash("Please select the X-ray image first !!", "danger")
-                return redirect(url_for("Pneumonia"))
+        except:
+            flash("Please select the X-ray image first !!", "danger")
+            return redirect(url_for("Pneumonia"))
+
 
 #Covid-19
 @app.route('/upload111', methods=['POST', 'GET'])
 def upload111_file():
-    with graph.as_default():
-        if request.method == 'GET':
-            return render_template('corona.html')
-        else:
-            try:
-                file = request.files['image']
-                full_name = os.path.join(UPLOAD_FOLDER, file.filename)
-                file.save(full_name)
+    #with graph.as_default():
 
-                indices = {1: 'Healthy', 0: 'Corona-Infected'}
-                result = api111(full_name)
+    if request.method == 'GET':
+        return render_template('corona.html')
+    else:
+        try:
+            file = request.files['image']
+            full_name = os.path.join(UPLOAD_FOLDER, file.filename)
+            file.save(full_name)
 
-                predicted_class = np.asscalar(np.argmax(result, axis=1))
-                accuracy = round(result[0][predicted_class] * 100, 2)
-                label = indices[predicted_class]
-                if accuracy<85:
-                    prediction = "Please, Check with the Doctor."
-                else:
-                    prediction = "Result is accurate"
+            indices = {1: 'Healthy', 0: 'Corona-Infected'}
+            result = api111(full_name)
 
-                return render_template('coronapredict.html', image_file_name = file.filename, label = label, accuracy = accuracy, prediction=prediction)
-            except:
-                flash("Please select the X-ray image first !!", "danger")
-                return redirect(url_for("covid_19"))
+            predicted_class = np.asscalar(np.argmax(result, axis=1))
+            accuracy = round(result[0][predicted_class] * 100, 2)
+            label = indices[predicted_class]
+            if accuracy<85:
+                prediction = "Please, Check with the Doctor."
+            else:
+                prediction = "Result is accurate"
 
+            return render_template('coronapredict.html', image_file_name = file.filename, label = label, accuracy = accuracy, prediction=prediction)
+        except:
+            flash("Please select the X-ray image first !!", "danger")
+            return redirect(url_for("covid_19"))
 
 @app.route('/uploads/<filename>')
 def send_file(filename):
