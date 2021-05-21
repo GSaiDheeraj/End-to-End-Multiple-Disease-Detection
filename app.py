@@ -13,7 +13,7 @@ app=Flask(__name__,template_folder='template')
 
 
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
+#app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
 
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -45,7 +45,7 @@ def api1(full_path):
     with graph.as_default():
     data = keras.preprocessing.image.load_img(full_path, target_size=(224, 224, 3))
     data = np.expand_dims(data, axis=0)
-    data = data / 255
+    data = data * 1.0 / 255
     predicted = model2.predict(data)
     return predicted
 
@@ -54,7 +54,7 @@ def api111(full_path):
     with graph.as_default():
     data = keras.preprocessing.image.load_img(full_path, target_size=(224, 224, 3))
     data = np.expand_dims(data, axis=0)
-    data = data / 255
+    data = data * 1.0 / 255
     predicted = model2.predict(data)
     return predicted
 
