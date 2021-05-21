@@ -14,7 +14,7 @@ import os
 app=Flask(__name__,template_folder='template')
 
 
-app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
+app.config['SECRET_KEY'] = "UddA58IkCqP5nZkwEzA7YA"
 
 
 
