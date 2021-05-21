@@ -1,12 +1,16 @@
-from flask import Flask,render_template, url_for ,flash , redirect
-import joblib
+from flask import Flask, render_template, url_for, flash, redirect
 from flask import request
-import numpy as np
-import os
 from flask import send_from_directory
-from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing import image
+from flask_socketio import SocketIO
+
+import numpy as np
+import tensorflow
+from tensorflow import keras
 import tensorflow as tf
+from tensorflow.keras.models import load_model
+import keras
+import os
+
 
 #from this import SQLAlchemy
 app=Flask(__name__,template_folder='template')
@@ -17,19 +21,17 @@ app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-# UPLOAD_FOLDER = dir_path + '/uploads'
-# STATIC_FOLDER = dir_path + '/static'
+
 UPLOAD_FOLDER = 'uploads'
 STATIC_FOLDER = 'static'
 
-from tensorflow.keras.models import load_model
-import keras
+
 
 #global graph
 #graph = tf.get_default_graph()
-model = load_model('model111.h5')
-model1=load_model("pneumonia.h5")
-model2 = tf.keras.models.load_model("Covid_model.h5")
+model = tensorflow.keras.models.load_model('model111.h5')
+model1 = tensorflow.keras.models.load_model("pneumonia.h5")
+model2 = tensorflow.keras.models.load_model("Covid_model.h5")
 
 # Malaria
 def api(full_path):
@@ -163,13 +165,6 @@ def index2():
 def about():
     return render_template("about.html")
 
-# @app.route("/login")
-# def login():
-#     return render_template("login.html")
-
-# @app.route("/register")
-# def login1():
-#     return render_template("signup.html")
 
 @app.route("/covid_19")
 def covid_19():
@@ -183,6 +178,7 @@ def Malaria():
 @app.route("/Pneumonia")
 def Pneumonia():
     return render_template("pneumonia.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
