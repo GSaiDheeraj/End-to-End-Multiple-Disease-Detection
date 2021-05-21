@@ -33,7 +33,7 @@ model2 = tf.keras.models.load_model("Covid_model.h5")
 
 # Malaria
 def api(full_path):
-    with graph.as_default():
+    #with graph.as_default():
     data = keras.preprocessing.image.load_img(full_path, target_size=(50, 50, 3))
     data = np.expand_dims(data, axis=0)
     data = data * 1.0 / 255
@@ -42,7 +42,7 @@ def api(full_path):
     return predicted
 #pneumonia
 def api1(full_path):
-    with graph.as_default():
+    #with graph.as_default():
     data = keras.preprocessing.image.load_img(full_path, target_size=(224, 224, 3))
     data = np.expand_dims(data, axis=0)
     data = data * 1.0 / 255
@@ -51,7 +51,7 @@ def api1(full_path):
 
 #Covid-19
 def api111(full_path):
-    with graph.as_default():
+    #with graph.as_default():
     data = keras.preprocessing.image.load_img(full_path, target_size=(224, 224, 3))
     data = np.expand_dims(data, axis=0)
     data = data * 1.0 / 255
