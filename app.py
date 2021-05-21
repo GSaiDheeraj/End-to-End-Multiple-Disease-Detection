@@ -8,6 +8,7 @@ import tensorflow
 from tensorflow import keras
 import tensorflow as tf
 import os
+from tensorflow.keras.models import load_model
 
 
 #from this import SQLAlchemy
