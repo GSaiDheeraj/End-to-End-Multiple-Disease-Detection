@@ -1,2 +1,2 @@
 # Multiple-Disease-Detection
-https://diseasesdetectionwithai.herokuapp.com/home
+https://diseasesdetectionwithai.herokuapp.com/
