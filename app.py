@@ -163,13 +163,13 @@ def index2():
 def about():
     return render_template("about.html")
 
-@app.route("/login")
-def login():
-    return render_template("login.html")
+# @app.route("/login")
+# def login():
+#     return render_template("login.html")
 
-@app.route("/register")
-def login1():
-    return render_template("signup.html")
+# @app.route("/register")
+# def login1():
+#     return render_template("signup.html")
 
 @app.route("/covid_19")
 def covid_19():
