@@ -68,7 +68,7 @@
   <header class="site-header">
   <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
     <div class="container">
-      <a class="navbar-brand mr-4" href="/">Corona Detection</a>
+      <a class="navbar-brand mr-4" href="/">Malaria Detection</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -107,14 +107,14 @@
   <h3 style="margin: auto;width: 80%; text-align: center; margin-top: 20px;  text-transform: uppercase">Corona Detection</h3>
 
 <h5 style="margin: auto;width: 80%; text-align: center; margin-top: 20px"> 1. Click "Select Image" </h5>
-<h5 style="margin: auto;width: 80%; text-align: center; margin-top: 20px"> 2. Select the Cell Image  </h5>
+<h5 style="margin: auto;width: 80%; text-align: center; margin-top: 20px"> 2. Select the X-ray Image  </h5>
 <h5 style="margin: auto;width: 80%; text-align: center; margin-top: 20px"> 3. Click "Upload"  </p>
 
    <div style="text-align: center; margin-top: 20px">
-       <img style="max-width: 600px" src="{{ url_for('static', filename='covid.gif') }}"/>
+       <img style="max-width: 600px" src="{{ url_for('static', filename='covid.jfif') }}"/>
    </div>
 
-  <form action="/upload" method="post" enctype="multipart/form-data" style="margin-top: 30px; width: 80%; text-align: center; margin: auto;" onsubmit="showloading()">
+  <form action="/upload111" method="post" enctype="multipart/form-data" style="margin-top: 30px; width: 80%; text-align: center; margin: auto;" onsubmit="showloading()">
       <span class="btn btn-default btn-file">
         Select Image <input type="file" name="image">
     </span><br><br>
@@ -122,7 +122,7 @@
   </form><hr><div style="text-align:center">
   <a href="/home"><input type="submit" value="Back to Home"></a></div>
     <div style="text-align: center">
-        <img id="loading_image" style="display: none" src="{{ url_for('static', filename='loading3.gif')}}">
+        <img id="loading_image" style="display: none" src="{{ url_for('static', filename='loading_3.gif')}}">
     </div>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
