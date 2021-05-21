@@ -32,7 +32,7 @@ STATIC_FOLDER = 'static'
 model = tensorflow.keras.models.load_model('model111.h5')
 model1 = tensorflow.keras.models.load_model("pneumonia.h5")
 model2 = tensorflow.keras.models.load_model("Covid_model.h5")
-model3 = tf.keras.models.load_model("CovidCT_model.h5")
+model3 = tensorflow.keras.models.load_model("CovidCT_model.h5")
 
 
 # Malaria
@@ -65,7 +65,7 @@ def api1111(full_path):
     #with graph.as_default():
     data = keras.preprocessing.image.load_img(full_path, target_size=(224, 224, 3))
     data = np.expand_dims(data, axis=0)
-    data = data / 255
+    data = data * 1.0/ 255
     predicted = model3.predict(data)
     return predicted
 
